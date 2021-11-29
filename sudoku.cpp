@@ -13,10 +13,13 @@ class sudoku {
         bool checkColumn(); //check if a number is valid in a column
         bool checkBox(); //check if a number is valid in a box
         vector<vector<int> > board;  // holds the sudoku
+        int curRow;
+        int curCol;
     public:
         sudoku(int N);
         bool dfsVisit(int row, int column);
         void printBoard();
+        bool checkMissing();
 };
 
 
@@ -44,7 +47,7 @@ bool sudoku::checkColumn(int newNum, int col_ind){
 }
 
 sudoku::sudoku(int N)
-:size(N * N), sizePerBox(N) {
+:size(N * N), sizePerBox(N), curRow(0), curCol(0) {
     board.resize(size);
     int tempInt;
     for(int i = 0 ; i < size; i++) {
@@ -71,6 +74,60 @@ void sudoku::printBoard() {
         }
         cout << endl;
     }
+}
+
+bool sudoku::checkBox(int curX, int curY, int newNum) {
+    int startX;
+    int endX;
+    int startY;
+    int endY;
+    if(curX < 4) {
+       startX = 0;
+       endX = 3;
+    } else if(curX >= 4 && curX < 8) {
+        startX = 4;
+        endX = 7;
+    } else if(curX >= 8 && curX < 12) {
+        startX = 8;
+        endX = 11;
+    } else {
+        startX = 12;
+        endX = 15;
+    }
+    if(curY < 4) {
+       startX = 0;
+       endX = 3;
+    } else if(curY >= 4 && curY < 8) {
+        startX = 4;
+        endX = 7;
+    } else if(curY >= 8 && curY < 12) {
+        startX = 8;
+        endX = 11;
+    } else {
+        startX = 12;
+        endX = 15;
+    }
+    for(int i = startX; i < endX; i++) {
+        for(int j = startY; j < endY; j++) {
+            if (board[i][j] == newNum) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+bool sudoku::checkMissing() {
+    for(int i = 0; i < 16; i++) {
+        for(int j = 0; j < 16; j++) {
+            if(board[i][j] == 0) {
+                curRow = i;
+                curCol = j;
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 int main() {
