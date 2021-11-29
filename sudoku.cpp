@@ -19,6 +19,30 @@ class sudoku {
         void printBoard();
 };
 
+
+bool sudoku::checkRow(int newNum, int row_ind){
+
+  for(auto i = board[row_ind].begin(); i != board[row_ind].end(); ++i){
+    if(*i == newNum){
+      return false;
+    }
+    
+  }
+
+  return true;
+}
+
+bool sudoku::checkColumn(int newNum, int col_ind){
+
+  for(auto i = board[col_ind].begin(); i != board[col_ind].end(); ++i){
+    if(*i == newNum){
+      return false;
+    }
+  }
+  return true;
+
+}
+
 sudoku::sudoku(int N)
 :size(N * N), sizePerBox(N) {
     board.resize(size);
