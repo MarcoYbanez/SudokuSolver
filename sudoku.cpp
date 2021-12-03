@@ -181,28 +181,20 @@ void sudoku::out_results(){
 
   ofstream out("results.txt");
   
-  out << size << std::endl;
+  //out << size << std::endl;
   for(int i = 0; i < size; ++i){
     for(int j =0; j < size; ++j){
       out << board[i][j] << " ";
     }
     out << endl;
   }
-  
-
-
-
+  out.close();
 }
 
 int main() {
     int N;
     cin >> N;
     sudoku mySudoku(N);
-    // if(!mySudoku.dfsVisit(0,0)) {
-    //     cout << "There is not a valid solution." << endl;
-    // } else {
-    //     mySudoku.printBoard();
-    // }
     mySudoku.printBoard();
 
     mySudoku.dfs();
