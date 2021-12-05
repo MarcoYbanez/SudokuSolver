@@ -1,12 +1,9 @@
 #!/usr/bin/python3.7
-
 from tkinter import Tk, Canvas, Frame, BOTH, Button, Label, IntVar
 import fileinput
 import os
 
-
 class Example(Frame):
-  
     def __init__(self, parent, a, container):
         Frame.__init__(self, parent) 
         self.canvas = Canvas(self)
@@ -33,7 +30,7 @@ class Example(Frame):
         for i in range(n):
             for j in range(n):
                 self.a[j][i] = inputPuzzle[j][i]
-        self.parent.title("Colours")        
+        self.parent.title("Sudoku Solver")        
         self.pack(fill=BOTH, expand=1)
         self.canvas.pack(fill=BOTH, expand=1)
         itor = 0
@@ -45,42 +42,34 @@ class Example(Frame):
                 y1 = (j * self.cellheight) + 5
                 x2 = x1 + self.cellwidth
                 y2 = y1 + self.cellheight
-                self.container[itor] = self.canvas.create_rectangle(x1+2,y1+2,x2,y2, outline="#ff0000")
+                self.canvas.create_rectangle(x1+2,y1+2,x2,y2, outline="#ff0000")
                 if(str(self.a[j][i]) != "0"):
                     self.container[itor] = self.canvas.create_text(x2-6,y2-6, text=str(self.a[j][i]))
                 else:
                     self.container[itor] = self.canvas.create_text(x2-6,y2-6, fill="#000fff000", text=str(self.a[j][i]))
                 itor += 1
 
-    def makeGrid(self):
+    def solve(self):
         n = 16
         outputPuzzle = []
-        os.system('./run < input/input1.txt')
+        os.system('./run < input/input3.txt')
         for line in fileinput.input(files ='./results.txt'):
             x = line.split()
             outputPuzzle.append(x)
-        for i in range(n):
-            for j in range(n):
-                self.a[j][i] = outputPuzzle[j][i]
         itor = 0
         for i in range(n):
             for j in range(n):
+                self.a[j][i] = outputPuzzle[j][i]
                 self.canvas.itemconfig(self.container[itor], text=str(self.a[j][i]))
                 itor += 1
-        
-      
-    def solve(self):
-        self.makeGrid()
 
 def main():
-  
     root = Tk()
     a = [[1] * 16 for i in range(16)]
     container = [0] * 256
-    ex = Example(root, a, container)
+    Example(root, a, container)
     root.geometry("400x100+300+300")
     root.mainloop()  
-
 
 if __name__ == '__main__':
     main()  
