@@ -2,7 +2,7 @@
 from tkinter import Tk, Canvas, Frame, BOTH, Button, Label, IntVar
 import fileinput
 import os
-from tkinter.constants import TRUE
+import sys
 
 class Example(Frame):
     def __init__(self, parent, a, container):
@@ -21,7 +21,7 @@ class Example(Frame):
         n = 16
         first = True
         inputPuzzle = []
-        for line in fileinput.input(files ='./input/input3.txt'):
+        for line in fileinput.input(files = sys.argv[1]):
             if(first):
                 first = False
                 continue
@@ -58,18 +58,17 @@ class Example(Frame):
                 y1 = (j * self.cellheight) + 10 + spacerY
                 x2 = x1 + self.cellwidth 
                 y2 = y1 + self.cellheight
-                #self.canvas.create_rectangle(x1+2,y1+2,x2,y2, outline="#ff0000")
                 self.canvas.create_rectangle(x1+2,y1+2,x2,y2)
                 if(str(self.a[j][i]) != "0"):
-                    self.container[itor] = self.canvas.create_text(x2-6,y2-6, text=str(self.a[j][i]))
+                    self.container[itor] = self.canvas.create_text(x2-12,y2-12, text=str(self.a[j][i]))
                 else:
-                    self.container[itor] = self.canvas.create_text(x2-6,y2-6, fill="#990099", text=str(self.a[j][i]))
+                    self.container[itor] = self.canvas.create_text(x2-12,y2-12, fill="#990099", text=str(self.a[j][i]))
                 itor += 1
 
     def solve(self):
         n = 16
         outputPuzzle = []
-        os.system('./run < input/input3.txt')
+        os.system('./run < ' + sys.argv[1])
         for line in fileinput.input(files ='./results.txt'):
             x = line.split()
             outputPuzzle.append(x)
