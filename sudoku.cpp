@@ -24,15 +24,12 @@ class sudoku {
 };
 
 void sudoku::dfs(){
-
   if(!dfsVisit()){
     cout << "No Solution\n";
   }
   else{
       cout << "Solved\n";
   }
-
-
 }
 
 
@@ -44,17 +41,12 @@ bool sudoku::dfsVisit(){
                      13, 14, 15, 16
   };
   int curCol, curRow;
-
-  //checkMissing(curCol, curRow);
-  //cerr << "curRow: " << curRow << std::endl;
-  //cerr << "curCol: " << curCol<< std::endl;
-
   if(!checkMissing(curRow, curCol)){
     int i;
     for(i = 0 ; i < (int)domain.size(); ++i){
       if(checkRow(curRow, domain[i]) && checkColumn(curCol, domain[i]) && checkBox(curRow, curCol,domain[i])){
         board[curRow][curCol] = domain[i];
-        
+        //printBoard(); Proof of backtracking debug output
         if(dfsVisit()){
           return true;
         }
@@ -64,6 +56,12 @@ bool sudoku::dfsVisit(){
 
     if(i >= 16){
       board[curRow][curCol] = 0;
+      // Proof of backtracking debug output
+      /*
+      cout << "curRow: " << curRow << endl;
+      cout << "curCol: " << curCol << endl;
+      cout << "**********" << endl;
+      */
       return false;
     }
   }
@@ -196,13 +194,8 @@ int main() {
     cin >> N;
     sudoku mySudoku(N);
     mySudoku.printBoard();
-
     mySudoku.dfs();
-
     mySudoku.printBoard();
     mySudoku.out_results();
-
-
-
     return 0;
 }
